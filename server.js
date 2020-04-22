@@ -8,24 +8,23 @@ app.use(cors({ optionSuccessStatus: 200 }));
 app.use(express.static("public"));
 
 // route to main HTML page
-app.get("/", (_, res) => {
-  res.sendFile(__dirname + "/views/index.html");
-});
+app.get("/", (_, res) => res.sendFile(`${__dirname}/views/index.html`));
 
 // define the API route
 app.get("/api/whoami", (req, res) => {
   // retrieve only the external/WAN IP address
   const ipaddress = req.headers["x-forwarded-for"].split(",").shift(),
-    // we can obtain the info like this too
+    // accesses one individual header’s value
     language = req.header("Accept-Language"),
-    // it works with a classic get also
+    // fetching with a classic get works too
     software = req.get("User-Agent");
 
-  // return all the information in JSON format
+  // return all the required info in JSON format
   res.json({ ipaddress, language, software });
 });
 
-// listen for requests :)
-const listener = app.listen(process.env.PORT || 4100, () => {
+// listening for requests :)
+const listener = app.listen(process.env.PORT || 4100, err => {
+  if (err) throw err;
   console.log(`Your app is listening on port ${listener.address().port}`);
 });
