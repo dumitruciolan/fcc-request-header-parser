@@ -23,6 +23,14 @@ app.get("/api/whoami", (req, res) => {
   res.json({ ipaddress, language, software });
 });
 
+// reply to inexistent routes
+app.use((_, res) =>
+  res
+    .status(404)
+    .type("txt")
+    .send("Not found")
+);
+
 // listening for requests :)
 const listener = app.listen(process.env.PORT || 4100, err => {
   if (err) throw err;
