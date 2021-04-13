@@ -14,16 +14,16 @@ app.get("/", (_, res) => res.sendFile(`${__dirname}/views/index.html`));
 app.get("/api/whoami", (req, res) => {
   // retrieve only the external/WAN IP address
   const ipaddress = req.headers["x-forwarded-for"].split(",").shift(),
-    // accesses one individual header’s value
+    // access one individual header’s value
     language = req.header("Accept-Language"),
     // fetching with a classic get works too
     software = req.get("User-Agent");
 
-  // return all the required info in JSON format
+  // return the required info in JSON format
   res.json({ ipaddress, language, software });
 });
 
-// reply to inexistent routes
+// respond to inexistent routes
 app.use((_, res) =>
   res
     .status(404)
@@ -31,7 +31,7 @@ app.use((_, res) =>
     .send("Not found")
 );
 
-// listening for requests :)
+// listening for requests
 const listener = app.listen(process.env.PORT || 4100, err => {
   if (err) throw err;
   console.log(`Your app is listening on port ${listener.address().port}`);
